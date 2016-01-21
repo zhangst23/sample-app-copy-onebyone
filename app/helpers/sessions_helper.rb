@@ -29,8 +29,8 @@ module SessionsHelper
 	end
 
 	#如果用户已登录，返回 true ，否则返回 false
-	def logged_in?
-		!current_user.nil?
+	def current_user?(user)
+		user == current_user
 	end
 
 	# 忘记持久会话
@@ -52,7 +52,17 @@ module SessionsHelper
 	end
 
 
+	# 重定向到存储的地址，或者默认地址
+	def redirect_back_or(default)
+		redirect_to(session[:forwarding_url] || default)
+		session.delete(:forwarding_url)
+	end
 
+	# 存储以后需要获取的地址
+	def store_location
+		session[:forwarding_url] = request.url if request.get?
+	end
+	
 
 
 
