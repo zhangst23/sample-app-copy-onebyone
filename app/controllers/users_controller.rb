@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
 
   end
 
@@ -51,6 +52,28 @@ class UsersController < ApplicationController
     flash[:success] = "User deleted"
     redirect_to users_url
   end
+
+
+  # 实现动态流原型
+  # 完整的实现参见 12 章
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
